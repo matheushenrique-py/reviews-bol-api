@@ -13,9 +13,9 @@ As requisições são feitas pelo ?SAP? e devem possuir a seguinte estrutura sem
   
 ```json  
 {  
-  "PRODUCTREVIEW_ID_SAP": [92653, 27542, , 816408],  
-  "NAME": ["Título 1", "Título 2", ..., "Título n"],  
-  "COMMENTS": ["Comentário 1", "Comentário 2", ..., "Comentário n"]  
+  "PRODUCTREVIEW_ID_SAP": [92653, 27542, "...", 816408],  
+  "NAME": ["Título 1", "Título 2", "...", "Título n"],  
+  "COMMENTS": ["Comentário 1", "Comentário 2", "...", "Comentário n"]  
 }  
 ```  
   
@@ -23,7 +23,7 @@ As requisições são feitas pelo ?SAP? e devem possuir a seguinte estrutura sem
   
 ```json  
 {  
-  "PRODUCTREVIEW_ID_SAP": [92653, 27542, ..., 816408],  
-  "STATUS": [1, 0, ..., 0]  
+  "PRODUCTREVIEW_ID_SAP": [92653, 27542, "...", 816408],  
+  "STATUS": [1, 0, "...", 0]  
 }  
 ```
