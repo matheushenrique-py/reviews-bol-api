@@ -22,7 +22,6 @@ class Filtros(Resource):
         df = pd.DataFrame(arq, index=arq['PRODUCTREVIEW_ID_SAP'])
 
         # procura comentários repetidos
-        j = 0
         repets = df.duplicated(subset='COMMENTS')
         ind_reprovados = [1 if repetido else 0 for repetido in repets]
 
@@ -61,7 +60,7 @@ class Filtros(Resource):
             if regex.search(atrib[i]) is not None:
                 ind_reprovados[i] = 1
 
-        return {'PRODUCTREVIEW_ID_SAP': df.index.tolist(), 'STATUS': ind_reprovados}
+        return {'PRODUCTREVIEW_ID_SAP': df.index.tolist(), 'STATUS': ind_reprovados}, 200
 
 
 api.add_resource(Filtros, '/filtro')
