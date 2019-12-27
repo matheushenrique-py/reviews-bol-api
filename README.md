@@ -27,3 +27,7 @@ As requisições são feitas pelo ?SAP? e devem possuir a seguinte estrutura sem
   "STATUS": [1, 0, "...", 0]  
 }  
 ```
+
+Onde:
+ * STATUS == 0: comentário aprovado;
+ * STATUS == 1: comentário reprovado;
