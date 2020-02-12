@@ -5,7 +5,6 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 
 import pandas as pd
-from sklearn.feature_extraction.text import CountVectorizer
 
 app = Flask(__name__)
 api = Api(app)
@@ -16,10 +15,12 @@ app.config['JSON_AS_ASCII'] = False
 class Filtros(Resource):
 
     def post(self):
-        N_REPETICAO_PALAVRAS = 3
 
-        arq = request.get_json(force=True)
-        df = pd.DataFrame(arq, index=arq['PRODUCTREVIEW_ID_SAP'])
+        try:
+            arq = request.get_json(force=True)
+            df = pd.DataFrame(arq, index=arq['PRODUCTREVIEW_ID_SAP'])
+        except:
+            return "Erro no formato da requisição json", 400
 
         # procura comentários repetidos
         repets = df.duplicated(subset='COMMENTS')
@@ -45,19 +46,10 @@ class Filtros(Resource):
                 if palavra in proibidas:
                     ind_reprovados[i] = 1
 
-            # procurando palavras repetidas
-            try:
-                count = CountVectorizer().fit_transform([atrib[i]])
-                n = count.toarray().max()
-
-                if n >= N_REPETICAO_PALAVRAS:
-                    ind_reprovados[i] = 1
-            except ValueError:
-                ind_reprovados[i] = 1
-
             # outros padrões indesejados
-            regex = re.compile(r'\d{4,}|[^aeiou .,áàãâéêíóôú0-9]{5,}|[#$&*/\\:;<=>@§£¢¬©\[\]{|}~^]')
-            if regex.search(atrib[i]) is not None:
+            regex = re.compile(r'\d{4,}|[^aeiou .,áàãâéêíóôú0-9]{5,}|(..)\1+|[#$&*/\\:;<=>@§£¢¬©\[\]{|}~^]')
+            regex_repetidas = re.compile(r'\b(\w{3}).*\1.*\1') # não consegui juntar os dois regexes
+            if (regex.search(atrib[i]) is not None) or (regex_repetidas.search(atrib[i]) is not None):
                 ind_reprovados[i] = 1
 
         return {'PRODUCTREVIEW_ID_SAP': df.index.tolist(), 'STATUS': ind_reprovados}, 200
