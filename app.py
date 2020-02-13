@@ -19,6 +19,9 @@ class Filtros(Resource):
         try:
             arq = request.get_json(force=True)
             df = pd.DataFrame(arq, index=arq['PRODUCTREVIEW_ID_SAP'])
+
+            if sorted(list(df.columns)) != ['COMMENTS', 'NAME', 'PRODUCTREVIEW_ID_SAP']:
+                return "Erro nas chaves da requisição json", 400
         except:
             return "Erro no formato da requisição json", 400
 
@@ -55,7 +58,27 @@ class Filtros(Resource):
         return {'PRODUCTREVIEW_ID_SAP': df.index.tolist(), 'STATUS': ind_reprovados}, 200
 
 
+class PalavrasProibidas(Resource):
+
+    def get(self):
+        with open('data/bad_words.txt', 'r', encoding='utf8') as file:
+            return file.read().split()
+
+    def post(self):
+        try:
+            palavras = request.get_json(force=True)
+
+            with open('data/bad_words.txt', 'a', encoding='utf8') as file:
+                for linha in palavras['PALAVRAS']:
+                    file.write('\n')
+                    file.writelines(linha.lower())
+            return 'Termo(s) adicionado(s) à lista de palavras proibidas', 200
+        except:
+            return "Erro no formato da requisição json", 400
+
+
 api.add_resource(Filtros, '/filtro')
+api.add_resource(PalavrasProibidas, '/palavras')
 
 if __name__ == '__main__':
     app.run(debug=True)

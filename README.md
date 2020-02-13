@@ -9,7 +9,7 @@ API para validação de comentários de produtos na Bemol Online. Aplica as segu
 * presença de alguns caracteres especiais incomuns;  
   
 ## Modelo de requisição  
-As requisições são feitas pelo ?SAP? e devem possuir a seguinte estrutura semelhante ao exemplo: 
+As requisições POST são feitas pelo ?SAP? ao endpoint _/filtros_ e devem possuir a seguinte estrutura semelhante ao exemplo: 
   
 ```json  
 {  
@@ -31,3 +31,12 @@ As requisições são feitas pelo ?SAP? e devem possuir a seguinte estrutura sem
 Onde:
  * STATUS == 0: comentário aprovado;
  * STATUS == 1: comentário reprovado;
+
+# Lista de palavras censuradas
+É possível receber a lista de palavras censuradas com o GET ao endpoint_/palavras_. Da mesma maneira, é possível adicionar novas palavras com um POST com a seguinte estrutura:
+
+```json  
+{  
+  "PALAVRAS": ["palavra 1", "palavra 2", "...", "palavra n"]  
+}  
+```
