@@ -50,7 +50,7 @@ class Filtros(Resource):
                     ind_reprovados[i] = 1
 
             # outros padrões indesejados
-            regex = re.compile(r'\d{4,}|[^aeiou .,áàãâéêíóôú0-9]{5,}|[#$&*/\\:;<=>@§£¢¬©\[\]{|}~^]|\b(\w{3}).*\1.*\1')
+            regex = re.compile(r'\d{4,}|[^aeiou .,áàãâéêíóôú0-9]{5,}|[#$&*/\\:;<=>@§£¢¬©\[\]{|}~^]|(.{3}).*\1.*\1')
             if regex.search(atrib[i]) is not None:
                 ind_reprovados[i] = 1
 
