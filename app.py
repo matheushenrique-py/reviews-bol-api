@@ -50,9 +50,8 @@ class Filtros(Resource):
                     ind_reprovados[i] = 1
 
             # outros padrões indesejados
-            regex = re.compile(r'\d{4,}|[^aeiou .,áàãâéêíóôú0-9]{5,}|(..)\1+|[#$&*/\\:;<=>@§£¢¬©\[\]{|}~^]')
-            regex_repetidas = re.compile(r'\b(\w{3}).*\1.*\1') # não consegui juntar os dois regexes
-            if (regex.search(atrib[i]) is not None) or (regex_repetidas.search(atrib[i]) is not None):
+            regex = re.compile(r'\d{4,}|[^aeiou .,áàãâéêíóôú0-9]{5,}|[#$&*/\\:;<=>@§£¢¬©\[\]{|}~^]|\b(\w{3}).*\1.*\1')
+            if regex.search(atrib[i]) is not None:
                 ind_reprovados[i] = 1
 
         return {'PRODUCTREVIEW_ID_SAP': df.index.tolist(), 'STATUS': ind_reprovados}, 200
